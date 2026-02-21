@@ -36,7 +36,7 @@ jobs:
             IMPLEMENTATION.md
 
   deploy_production:
-    name: Deploy Staging
+    name: Deploy Production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
