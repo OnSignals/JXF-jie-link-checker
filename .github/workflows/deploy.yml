@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_staging:
+    name: Deploy Staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: ${{secrets.STAGING_SFTP_HOST}}
+          username: ${{secrets.STAGING_SFTP_USER}}
+          password: ${{secrets.STAGING_SFTP_PASSWORD}}
+          port: ${{secrets.STAGING_SFTP_PORT}}
+          uploads: |
+            ./ => /home/users/jxfund/vhosts/stage.jx-fund.org/public/wp-content/plugins/jie-link-checker
+          ignore: |
+            .*
+            .*/**
+            **/.*
+            **/.*/**
+            node_modules/**
+            **/node_modules/**
+            info.php
+            package*.json
+            **/package*.json
+            composer.json
+            **/composer.json
+            *.code-*
+            IMPLEMENTATION.md
